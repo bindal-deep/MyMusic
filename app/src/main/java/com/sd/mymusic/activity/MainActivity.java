@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -70,6 +72,13 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
         songView.setAdapter(songAdt);
 
         setController();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 
     //connect to the service
@@ -155,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
 
     @Override
     protected void onDestroy() {
+        if (musicBound) unbindService(musicConnection);
         stopService(playIntent);
         musicSrv = null;
         super.onDestroy();
